@@ -76,6 +76,26 @@ pipeline {
                 }
             }
         }
+        stage("Publish to Nexus Repository Manager") {
+             steps {
+	            nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                groupId: 'QA',
+                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                repository: "${RELEASE_REPO}",
+                credentialsId: "${NEXUS_CREDENTIAL_ID}",
+                artifacts: [
+                    [artifactId: 'cloudops',
+                    classifier: '',
+                    file: 'target/cloudops-v2.war',
+                    type: 'war']
+                   ]
+                )
+             }
+        }    
+
 
     }
 }
