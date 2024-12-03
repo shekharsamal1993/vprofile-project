@@ -49,7 +49,7 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
              environment {
                 scannerHome = tool("${SONARSCANNER}")
-                JAVA_17_HOME = '/usr/lib/jvm/java-17-openjdk' // Adjust to your Java 17 installation path
+                JAVA_17_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Adjust to your Java 17 installation path
              }
             steps {
                 withSonarQubeEnv("${SONARSERVER}") {
