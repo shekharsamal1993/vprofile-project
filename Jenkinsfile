@@ -6,13 +6,13 @@ pipeline {
     }
     environment {
         SNAP_REPO = "cloudops-snapshot"
-        NEXUS-USER = "admin"
-        NEXUS-PASS = "cloudops123"
+        NEXUS_USER = "admin"
+        NEXUS_PASS = "cloudops123"
         NEXUS_URL = "172.31.94.191"
         NEXUSPORT = "8081"
-        RELEASE-REPO = "cloudops-release"
-        CENTRAL-REPO = "cloudops-maven-central"
-	    NEXUS_REPOGRP_ID    = "cloudops-maven-group"
+        RELEASE_REPO = "cloudops-release"
+        CENTRAL_REPO = "cloudops-maven-central"
+	    NEXUS_GRP_REPO   = "cloudops-maven-group"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
     }
 
