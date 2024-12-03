@@ -14,6 +14,9 @@ pipeline {
         CENTRAL_REPO = "cloudops-maven-central"
 	    NEXUS_GRP_REPO   = "cloudops-maven-group"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
+        SONARSCANNER = "sonarscanner"
+        SONARSERVER  = "sonarserver"
+
     }
 
     stages {
@@ -42,6 +45,26 @@ pipeline {
                     echo 'Generated Analysis Result'
                 }
             }
-      }  
+        }  
+        stage('CODE ANALYSIS with SONARQUBE') {
+          
+		  environment {
+             scannerHome = tool "${SONARSCANNER}"
+          }
+
+          steps {
+            withSonarQubeEnv("${SONARSERVER}") {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=cloudops \
+                   -Dsonar.projectName=cloudops-repo \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+            }
+        }     
+
 }
 }
