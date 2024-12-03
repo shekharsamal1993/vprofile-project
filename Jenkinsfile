@@ -47,24 +47,28 @@ pipeline {
             }
         }  
         stage('CODE ANALYSIS with SONARQUBE') {
-          
-		  environment {
-             scannerHome = tool "${SONARSCANNER}"
-          }
-
-          steps {
-            withSonarQubeEnv("${SONARSERVER}") {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=cloudops \
-                   -Dsonar.projectName=cloudops-repo \
-                   -Dsonar.projectVersion=1.0 \
-                   -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
-                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
-                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-                }
-            }
-        }     
+             environment {
+                scannerHome = tool("${SONARSCANNER}")
+                JAVA_17_HOME = '/usr/lib/jvm/java-17-openjdk' // Adjust to your Java 17 installation path
+             }
+            steps {
+                withSonarQubeEnv("${SONARSERVER}") {
+                withEnv(["JAVA_HOME=${JAVA_17_HOME}", "PATH=${JAVA_17_HOME}/bin:${PATH}"]) {
+                    sh '''
+                        ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=cloudops \
+                        -Dsonar.projectName=cloudops-repo \
+                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.sources=src/ \
+                        -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                        -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                        -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                        -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+                    '''
+               }
+             }
+           }
+        }
 
 }
 }
