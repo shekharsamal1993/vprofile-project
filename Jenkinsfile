@@ -8,7 +8,7 @@ pipeline {
         SNAP_REPO = "cloudops-snapshot"
         NEXUS_USER = "admin"
         NEXUS_PASS = "cloudops123"
-        NEXUS_URL = "172.31.94.191"
+        NEXUSIP = "172.31.94.191"
         NEXUSPORT = "8081"
         RELEASE_REPO = "cloudops-release"
         CENTRAL_REPO = "cloudops-maven-central"
