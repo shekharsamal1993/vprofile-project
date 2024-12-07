@@ -118,7 +118,7 @@ pipeline {
                     time: "${env.BUILD_TIMESTAMP}",
                     build: "${env.BUILD_ID}",
                     artifactId: "cloudops"
-                    cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
+                    cloudops-version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
 
               ])
            }
