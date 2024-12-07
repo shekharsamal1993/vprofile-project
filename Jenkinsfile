@@ -88,7 +88,7 @@ pipeline {
                 protocol: 'http',
                 nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
                 groupId: 'QA',
-                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_')}",
                 repository: "${RELEASE_REPO}",
                 credentialsId: "${NEXUS_CREDENTIAL_ID}",
                 artifacts: [
@@ -115,10 +115,10 @@ pipeline {
                     nexusip: "172.31.94.191",
                     reponame: "cloudops-release",
                     groupid: "QA",
-                    time: "${env.BUILD_TIMESTAMP}",
+                    time: "${env.BUILD_TIMESTAMP.replace(' ', '_')}",
                     build: "${env.BUILD_ID}",
                     artifactId: "cloudops",
-                    cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
+                    cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_')}.war"
               ]
             ])
            }
