@@ -14,52 +14,53 @@ pipeline {
         stage("Setup parameters") {
             steps {
                 script {
-                    prperties ([
+                    properties([
                         parameters([
-                          strings(
-                            defaultValue: '',
-                            name: 'BUILD'
-                           ),
-                          strings(
-                            defaultValue: '',
-                            name: 'TIME'
-                          )
+                            string(
+                                defaultValue: '',
+                                name: 'BUILD'
+                            ),
+                            string(
+                                defaultValue: '',
+                                name: 'TIME'
+                            )
                         ])
                     ])
                 }
             }
         }
-        stage("Ansible Deploy to prods"){
+        stage("Ansible Deploy to prods") {
             steps {
-               ansiblePlaybook([
-               playbook: 'ansible/site.yml',
-               inventory: 'ansible/prod.inventory',
-               installation: 'ansible',
-               colorized: true, 
-               credentialsId: 'app-prod-login',
-               disableHostKeyChecking: true,
-               extraVars: [
-                    USER: "admin",
-                    PASS: "${NEXUSPASS}",
-                    nexusip: "172.31.94.191",
-                    reponame: "cloudops-release",
-                    groupid: "QA",
-                    time: "${env.BUILD_TIMESTAMP.replace(' ', '_')}",
-                    build: "${env.BUILD_ID}",
-                    artifactId: "cloudops",
-                    cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_')}.war"
-                   ]
-               ])
+                ansiblePlaybook([
+                    playbook: 'ansible/site.yml',
+                    inventory: 'ansible/prod.inventory',
+                    installation: 'ansible',
+                    colorized: true, 
+                    credentialsId: 'app-prod-login',
+                    disableHostKeyChecking: true,
+                    extraVars: [
+                        USER: "admin",
+                        PASS: "${NEXUSPASS}",
+                        nexusip: "172.31.94.191",
+                        reponame: "cloudops-release",
+                        groupid: "QA",
+                        time: "${env.BUILD_TIMESTAMP.replace(' ', '_')}",
+                        build: "${env.BUILD_ID}",
+                        artifactId: "cloudops",
+                        cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_')}.war"
+                    ]
+                ])
             }
         }
     }
+
     post {
         always {
-            echo 'Slack Notificatios.'
-            //Add channel name
+            echo 'Slack Notification.'
+            // Add channel name
             slackSend channel: '#jenkinscicd',
-                color: COLOR_MAP[currentBuild.currentResult],
-                message: "Find Status of Pipeline:- ${currentBuild.currentResult}:* job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+                      color: COLOR_MAP[currentBuild.currentResult],
+                      message: "Find Status of Pipeline:- ${currentBuild.currentResult}:* job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
-    }    
+    }
 }
