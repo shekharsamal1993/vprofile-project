@@ -100,7 +100,7 @@ pipeline {
                 )
              }
         }    
-       stage("Ansible Deploy to stagings") {
+        stage("Ansible Deploy to stagings"){
            steps {
                ansiblePlaybook([
                playbook: 'ansible/site.yml',
@@ -122,7 +122,7 @@ pipeline {
               ]
             ])
            }
-       }
+        }
     }
     post {
         always {
