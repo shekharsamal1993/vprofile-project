@@ -102,7 +102,7 @@ pipeline {
         }    
        stage("Ansible Deploy to stagings") {
            steps {
-               ansiblePlaybook(
+               ansiblePlaybook([
                playbook: 'ansible/site.yml',
                inventory: 'ansible/stage.inventory',
                installation: 'ansible',
@@ -119,7 +119,8 @@ pipeline {
                     build: "${env.BUILD_ID}",
                     artifactId: "cloudops"
                     cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
-              ])
+              ]
+            ])
            }
        }
     }
