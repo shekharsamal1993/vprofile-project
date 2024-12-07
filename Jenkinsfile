@@ -1,12 +1,13 @@
 def COLOR_MAP = [
     'SUCCESS': 'good',
-    'FALIURE': 'danger',
+    'FAILURE': 'danger',
 ]
 
 pipeline {
     agent any
     environment {
         NEXUSPASS = credentials('nexuspass')
+        BUILD_TIMESTAMP = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim() // Add this if you need a timestamp
     }
 
     stages {
@@ -17,11 +18,11 @@ pipeline {
                         parameters([
                           strings(
                             defaultValue: '',
-                            name: 'BUILD',
+                            name: 'BUILD'
                            ),
                           strings(
                             defaultValue: '',
-                            name: 'TIME',
+                            name: 'TIME'
                           )
                         ])
                     ])
