@@ -21,7 +21,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexuslogin"
         SONARSCANNER = "sonarscanner"
         SONARSERVER  = "sonarserver"
-
+        NEXUSPASS = credentials{'nexuspass'}
     }
 
     stages {
@@ -100,6 +100,29 @@ pipeline {
                 )
              }
         }    
+       stage("Ansible Deploy to stagings") {
+           steps {
+               ansiblePlaybook(
+               playbook: 'ansible/site.yml',
+               inventory: 'ansible/stage.inventory',
+               installation: 'ansible',
+               colorized: true, 
+               credentialsId: 'applogin',
+               disableHostKeyChecking: true,
+               extraVars: [
+                    USER: 'admin',
+                    PASS: "${NEXUSPASS}",
+                    nexusip: '172.31.94.191',
+                    reponame: 'cloudops-release',
+                    groupid: 'QA',
+                    time: "${env.BUILD_TIMESTAMP}",
+                    build: "${env.BUILD_ID}",
+                    artifactId: "cloudops"
+                    vprofile_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
+
+              ])
+           }
+       }
     }
     post {
         always {
