@@ -1,0 +1,129 @@
+- name: Common tool setup on all the servers
+  hosts: appsrvgrp
+  become: yes
+  vars:
+    tom_url: https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz
+
+  tasks:
+    - name: Install JDK on CentOS/RHEL 8/9
+      dnf:
+        name: java-1.8.0-openjdk
+        state: present
+      when: ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_major_version|int >= 8
+
+    - name: Install JDK on CentOS 7
+      yum:
+        name: java-1.8.0-openjdk.x86_64
+        state: present
+      when: ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_major_version|int == 7
+
+    - name: Install JDK on Ubuntu
+      apt:
+        name: openjdk-8-jdk
+        state: present
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int < 22
+
+    - name: Install JDK on Ubuntu 22 and above
+      apt:
+        name: openjdk-11-jdk
+        state: present
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 22
+
+    - name: Download Tomcat Tar Ball/Binaries
+      get_url:
+        url: "{{ tom_url }}"
+        dest: /tmp/tomcat-8.tar.gz
+        mode: '0644'
+
+    # - name: Download Tomcat Tar Ball/Binaries
+    #   get_url:
+    #      url: "https://downloads.apache.org/tomcat/tomcat-8/v8.5.92/bin/apache-tomcat-8.5.92.tar.gz"
+    #      dest: /tmp/tomcat-8.tar.gz
+    #   register: download_status
+    
+    - name: Add tomcat group
+      group:
+        name: tomcat
+        state: present
+
+    - name: Add tomcat user
+      user:
+        name: tomcat
+        group: tomcat
+        shell: /bin/nologin
+        home: /usr/local/tomcat8
+
+    - name: Create Tomcat extraction directory
+      file:
+        path: /tmp/tomcat8
+        state: directory
+      check_mode: no  # Ensure this runs even in --check mode  
+
+    - name: Verify directory creation
+      command: ls -ld /tmp/tomcat8
+
+    - name: Extract tomcat
+      unarchive:
+        src: /tmp/tomcat-8.tar.gz
+        dest: /tmp/tomcat8/
+        remote_src: yes
+      register: unarchive_info
+
+    - debug:
+        msg: "{{ unarchive_info.files[0].split('/')[0] }}"
+
+    - name: Synchronize /tmp/tomcat8/tomcat_cont /usr/local/tomcat8.
+      synchronize:
+        src: "/tmp/tomcat8/{{ unarchive_info.files[0].split('/')[0] }}/"
+        dest: /usr/local/tomcat8/
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Change ownership of /usr/local/tomcat8
+      file:
+        path: /usr/local/tomcat8
+        owner: tomcat
+        group: tomcat
+        recurse: yes
+
+    - name: Setup tomcat service file for systemd
+      template:
+        src: /opt/cloudops/systemd-tomcat.j2
+        dest: /etc/systemd/system/tomcat.service
+        mode: "a+x"
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Start & Enable Tomcat 8
+      service:
+        name: tomcat
+        state: started
+        enabled: yes
+
+
+
+
+- name: Install JDK 8 on Ubuntu 22 (if required)
+  ansible.builtin.apt:
+    name: openjdk-8-jdk
+    state: present
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '22'
+
+- name: Set JDK 8 as default on Ubuntu 22 (alternative method)
+  command: update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 1
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '22'
+
+- name: Set JAVA_HOME for JDK 8 on Ubuntu 22
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    regexp: '^JAVA_HOME'
+    line: 'JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"'
+    state: present
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '22'
+
+- name: Apply changes to environment variables
+  ansible.builtin.command: source /etc/environment
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '22'

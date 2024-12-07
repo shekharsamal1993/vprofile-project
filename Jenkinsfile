@@ -119,7 +119,6 @@ pipeline {
                     build: "${env.BUILD_ID}",
                     artifactId: "cloudops"
                     cloudops-version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
-
               ])
            }
        }
