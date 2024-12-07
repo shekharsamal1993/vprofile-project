@@ -7,7 +7,7 @@ pipeline {
     agent any
     environment {
         NEXUSPASS = credentials('nexuspass')
-        BUILD_TIMESTAMP = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim() // Add this if you need a timestamp
+        BUILD_TIMESTAMP = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim() // Timestamp
     }
 
     stages {
@@ -44,10 +44,10 @@ pipeline {
                         nexusip: "172.31.94.191",
                         reponame: "cloudops-release",
                         groupid: "QA",
-                        time: "${env.BUILD_TIMESTAMP.replace(' ', '_')}",
+                        time: "${env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '%3A')}", // Update to replace ":" with "%3A"
                         build: "${env.BUILD_ID}",
                         artifactId: "cloudops",
-                        cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_')}.war"
+                        cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '%3A')}.war" // Update to replace ":" with "%3A"
                     ]
                 ])
             }
