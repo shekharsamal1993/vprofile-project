@@ -7,7 +7,6 @@ pipeline {
     agent any
     environment {
         NEXUSPASS = credentials('nexuspass')
-        BUILD_TIMESTAMP = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim() // Add this if you need a timestamp
     }
 
     stages {
