@@ -117,7 +117,7 @@ pipeline {
                     groupid: 'QA',
                     time: "${env.BUILD_TIMESTAMP}",
                     build: "${env.BUILD_ID}",
-                    artifactId: "cloudops"
+                    artifactId: "cloudops",
                     cloudops_version: "cloudops-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
               ]
             ])
