@@ -46,7 +46,7 @@ pipeline {
                         time: "${params.TIME}",  // Correct usage of params
                         build: "${params.BUILD}",
                         artifactId: "cloudops",
-                        cloudops_version: "cloudops-${params.BUILD}-${params.TIME.replace(' ', '_')}.war"
+                        cloudops_version: "cloudops-${params.BUILD}-${params.TIME.replace(' ', '%20').replace(':', '%3A')}.war"
                     ]
                 ])
             }
