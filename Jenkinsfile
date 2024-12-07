@@ -1,18 +1,13 @@
 def COLOR_MAP = [
     'SUCCESS': 'good',
     'FAILURE': 'danger',
-    'UNSTABLE': 'warning'
 ]
 
 pipeline {
     agent any
     environment {
         NEXUSPASS = credentials('nexuspass')
-    }
-
-    parameters {
-        string(name: 'BUILD', defaultValue: '1.0', description: 'Build version')
-        string(name: 'TIME', defaultValue: '2024-12-01_12:00', description: 'Build timestamp')
+        BUILD_TIMESTAMP = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim() // Add this if you need a timestamp
     }
 
     stages {
@@ -21,14 +16,20 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            string(defaultValue: '', name: 'BUILD'),
-                            string(defaultValue: '', name: 'TIME')
+                            string(
+                                defaultValue: '',
+                                name: 'BUILD'
+                            ),
+                            string(
+                                defaultValue: '',
+                                name: 'TIME'
+                            )
                         ])
                     ])
                 }
             }
         }
-        stage("Ansible Deploy to prod") {
+        stage("Ansible Deploy to prods") {
             steps {
                 ansiblePlaybook([
                     playbook: 'ansible/site.yml',
@@ -43,10 +44,10 @@ pipeline {
                         nexusip: "172.31.94.191",
                         reponame: "cloudops-release",
                         groupid: "QA",
-                        time: "${params.TIME}",  // Correct usage of params
-                        build: "${params.BUILD}",
+                        time: "${env.TIME}",
+                        build: "${env.BUILD}",
                         artifactId: "cloudops",
-                        cloudops_version: "cloudops-${params.BUILD}-${params.TIME.replace(' ', '%20').replace(':', '%3A')}.war"
+                        cloudops_version: "cloudops-${env.BUILD_ID}-${env.TIME}.war"
                     ]
                 ])
             }
@@ -56,6 +57,7 @@ pipeline {
     post {
         always {
             echo 'Slack Notification.'
+            // Add channel name
             slackSend channel: '#jenkinscicd',
                       color: COLOR_MAP[currentBuild.currentResult],
                       message: "Find Status of Pipeline:- ${currentBuild.currentResult}:* job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
