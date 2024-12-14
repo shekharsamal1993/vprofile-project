@@ -122,7 +122,25 @@
       register: igw_out  
     - debug:
         var: igw_out
-                       
+
+    - name: Set up public subnet route table
+      amazon.aws.ec2_vpc_route_table:
+        vpc_id: "{{vpcout.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name:  VProfile-PubRT
+        subnets:
+          - "{{pubsub1_out.id}}"
+          - "{{pubsub2_out.id}}"
+          - "{{pubsub3_out.id}}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{igw_out.gateway_id}}"
+      register: pubRT_out     
+
+    - debug:
+        vars: pubRT_out
+        
     
     
  
