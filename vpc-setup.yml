@@ -139,7 +139,8 @@
       register: pubRT_out     
 
     - debug:
-        vars: pubRT_out
+        var: pubRT_out
+        
         
     
     
