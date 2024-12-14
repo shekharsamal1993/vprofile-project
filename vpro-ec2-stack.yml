@@ -1,24 +1,64 @@
---- 
-- name: Setup vprofile stack
-  hosts: localhost
-  connection: local
-  gather_facts: no
-  tasks:
-    - name: Import VPC setup Variable
-      include_vars: vars/vpc-output_vars
+# --- 
+# - name: Setup vprofile stack
+#   hosts: localhost
+#   connection: local
+#   gather_facts: no
+#   tasks:
+#     - name: Import VPC setup Variable
+#       include_vars: vars/vpc-output_vars
 
-    - name: Create vprofile ec2 key
-      ec2_key:
-        name: vprokey
-        region: "{{region}}"
-      register: vprokey_out
+#     - name: Create vprofile ec2 key
+#       ec2_key:
+#         name: vprokey
+#         region: "{{region}}"
+#       register: vprokey_out
 
-    # - debug:
-    #     var: vprokey_out
+#     # - debug:
+#     #     var: vprokey_out
 
-    - name: Save private key into file loginkey_vpro.pem
-      copy:
-        content: "{{vprokey_out.key.private_key}}"
-        dest: "./loginkey_vpro.pem"
-        mode: 0600
-      when: vprokey_out.changed        
+#     - name: Save private key into file loginkey_vpro.pem
+#       copy:
+#         content: "{{vprokey_out.key.private_key}}"
+#         dest: "./loginkey_vpro.pem"
+#         mode: 0600
+#       when: vprokey_out.changed    
+
+#     - name: Create Securiry Group for Load Balancer
+#       amazon.aws.ec2_security_group:
+#         name: vproELB-sg
+#         description: Allow port 80 from anywhere and all port within sg
+#         vpc_id: "{{vpcout.vpc.id}}"
+#         region: "{{region}}"
+#         rules:
+#           - proto: tcp
+#             from_port: 80
+#             to_port: 80
+#             cidr_ip: 0.0.0.0/0
+#             rule_desc: allow all on port 80
+#         register: vproELB-sg_out
+
+#     - debug:
+#         var: vproELB-sg_out  
+
+#     - name: Create Securiry Group for Vprofile Stack
+#       amazon.aws.ec2_security_group:
+#         name: vproStack-sg
+#         description: Allow port 22 from everywhere and all port within sg
+#         vpc_id: "{{vpcout.vpc.id}}"
+#         region: "{{region}}"
+#         rules:
+#           - proto: tcp
+#             from_port: 80
+#             to_port: 80
+#             cidr_ip: "{{vproELB-sg_out.group_id}}"
+#             rule_desc: allow all on port from vp[roELB sg
+
+#           - proto: tcp
+#             from_port: 22
+#             to_port: 22
+#             group_id: "{{BastionSGid}}"  
+
+#         register: vproStack-sg_out
+
+#     - debug:
+#         var: vproStack-sg_out    
