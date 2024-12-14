@@ -43,7 +43,7 @@
         key_name: vprofile-key
         region: "{{region}}"
         instance_type: t2.micro
-        image: "{{ bastion_ami }}"
+        image_id: "{{ bastion_ami }}"
         wait: yes
         wait_timeout: 300
         instance_tags:
@@ -68,4 +68,4 @@
         backup: yes
         block: |
           BastionSGid: {{BastionSG_out.group_id}}
-          
+
