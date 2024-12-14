@@ -1,0 +1,16 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Import VPC Setup Variables
+      include_vars: vars/vpc_setup
+    - name: create a VPC with dedicated tenancy and a couple of tags
+      amazon.aws.ec2_vpc_net:
+        name: {{vpc_name}}
+        cidr_block: {{vpcCidr}}
+        region: {{region}}
+        dns_support: true 
+        dns_hostnames: true 
+        tenancy: dedicated  
+      register: vpcout        
+    - debug: vpcout   
