@@ -110,8 +110,19 @@
       register: privsub3_out  
 
     - debug: 
-        var: privsub3_out     
-               
+        var: privsub3_out   
+
+    - name: Create Internet gateway with tags
+      amazon.aws.ec2_vpc_igw:
+        vpc_id: "{{vpcout.vpc.id}}"
+        state: "{{state}}"
+        region: "{{region}}"
+        tags:
+          Name: vprofile_IGW
+      register: igw_out  
+    - debug:
+        var: igw_out
+                       
     
     
  
