@@ -13,4 +13,5 @@
         dns_hostnames: true 
         tenancy: dedicated  
       register: vpcout        
-    - debug: vpcout   
+    - debug: vpcout 
+     
