@@ -29,12 +29,12 @@
         region: "{{region}}"
         cidr: "{{PubSub1Cidr}}"
         az: "{{zone1}}"
-        map_public_ip_on_launch: yes
+        map_public: yes
         tags:
           Name: vprofile-pubsub1
       register: pubsub1_out  
 
     - debug: 
         var: pubsub1_out 
-        
+
  
