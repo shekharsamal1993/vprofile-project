@@ -13,6 +13,8 @@
         dns_hostnames: true 
         stae: "{{state}}"
         tenancy: dedicated  
-      register: vpcout        
-    - debug: vpcout 
+      register: vpcout  
+
+    - debug: 
+        var: vpcout 
  
