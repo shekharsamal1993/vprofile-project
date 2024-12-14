@@ -4,15 +4,19 @@
   tasks:
     - name: Import VPC Setup Variables
       include_vars: vars/vpc_setup
-    - name: create a VPC with dedicated tenancy and a couple of tags
+      
+    - name: Create vprofile VPC
       amazon.aws.ec2_vpc_net:
         name: "{{vpc_name}}"
         cidr_block: "{{vpcCidr}}"
         region: "{{region}}"
         dns_support: true 
         dns_hostnames: true 
-        stae: "{{state}}"
-        tenancy: default 
+        state: "{{state}}"
+        tenancy: default
+        tags:
+          Environment: "Production"
+          Project: "VprProject" 
       register: vpcout  
 
     - debug: 
