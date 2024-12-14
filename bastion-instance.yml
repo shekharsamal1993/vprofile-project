@@ -54,7 +54,7 @@
         state: present
         group_id: "{{BastionSG_out.group_id}}"
         vpc_subnet_id: "{{pubsub1id}}"
-      when: ec2_info.instances | length == 0  
+       
       register: bastionHost_out  
 
     - debug:  
