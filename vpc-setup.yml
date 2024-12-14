@@ -12,7 +12,7 @@
         dns_support: true 
         dns_hostnames: true 
         stae: "{{state}}"
-        tenancy: dedicated  
+        tenancy: default 
       register: vpcout  
 
     - debug: 
