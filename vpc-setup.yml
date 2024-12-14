@@ -14,4 +14,4 @@
         tenancy: dedicated  
       register: vpcout        
     - debug: vpcout 
-     
+ 
