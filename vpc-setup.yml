@@ -37,4 +37,36 @@
     - debug: 
         var: pubsub1_out 
 
+    - name: Create Public subnet2 in  Zone2
+      amazon.aws.ec2_vpc_subnet:
+        state: "{{state}}"
+        vpc_id: "{{vpcout.vpc.id}}"
+        region: "{{region}}"
+        cidr: "{{PubSub2Cidr}}"
+        az: "{{zone2}}"
+        map_public: yes
+        tags:
+          Name: vprofile-pubsub2
+      register: pubsub2_out  
+
+    - debug: 
+        var: pubsub2_out     
+
+    - name: Create Public subnet3 in  Zone3
+      amazon.aws.ec2_vpc_subnet:
+        state: "{{state}}"
+        vpc_id: "{{vpcout.vpc.id}}"
+        region: "{{region}}"
+        cidr: "{{PubSub3Cidr}}"
+        az: "{{zone3}}"
+        map_public: yes
+        tags:
+          Name: vprofile-pubsub3
+      register: pubsub3_out  
+
+    - debug: 
+        var: pubsub3_out       
+
+        
+
  
