@@ -38,10 +38,10 @@
             to_port: 80
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all on port 80
-      register: vproELB-sg_out
+      register: vproELB_sg_out
 
     - debug:
-        var: vproELB-sg_out  
+        var: vproELB_sg_out  
 
     - name: Create Securiry Group for Vprofile Stack
       amazon.aws.ec2_security_group:
@@ -61,10 +61,10 @@
             to_port: 22
             group_id: "{{BastionSGid}}"  
 
-      register: vproStack-sg_out
+      register: vproStack_sg_out
 
     - debug:
-        var: vproStack-sg_out   
+        var: vproStack_sg_out   
 
 
     - name: Creating Nginx web01
