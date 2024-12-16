@@ -53,7 +53,7 @@
           - proto: tcp
             from_port: 80
             to_port: 80
-            cidr_ip: "{{vproELB-sg_out.group_id}}"
+            cidr_ip: "{{vproELB_sg_out.group_id}}"
             rule_desc: allow all on port from vproELB sg
 
           - proto: tcp
