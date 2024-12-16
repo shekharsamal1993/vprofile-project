@@ -176,7 +176,7 @@
       register: db01_out   
     
     - debug:
-        var: db01_out.tagged_instances[0].id
+        var: db01_out
 
     - local_action:
         module: amazon.aws.ec2_elb_lb
