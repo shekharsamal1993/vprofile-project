@@ -83,7 +83,7 @@
         state: present
         security_group: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
-        
+
       register: web01_out
 
     - debug:
@@ -184,7 +184,7 @@
         region: "{{region}}"
         state: present
         instance_ids:
-          - "{{ web01_out.tagged_instances[0].id }}"
+          - "{{ web01_out.instances.tags[0].id }}"   
         purge_instance_ids: true
         security_group_ids: "{{ vproELBSG_out.group_id }}"
         subnets:
