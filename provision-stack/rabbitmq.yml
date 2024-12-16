@@ -25,13 +25,13 @@
       tags:
         - package
     
-    - name: Upgrade Erlang to version 24.3
-      apt:
-        name: erlang
-        state: latest
-        update_cache: yes
-      tags:
-        - package
+    # - name: Upgrade Erlang to version 24.3
+    #   apt:
+    #     name: erlang
+    #     state: latest
+    #     update_cache: yes
+    #   tags:
+    #     - package
   
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
