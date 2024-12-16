@@ -5,21 +5,13 @@
   tasks:
     - name: Install Erlang Repository Package
       apt:
-        deb: https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
-        state: present
+        deb: https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
       tags:
         - package
 
-    - name: Add Erlang Solutions public key
+    - name: Add an Erlang Solution public Key
       apt_key:
         url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
-        state: present
-      tags:
-        - package
-
-    - name: Add Erlang repository
-      apt_repository:
-        repo: deb https://packages.erlang-solutions.com/ubuntu focal contrib
         state: present
       tags:
         - package
@@ -27,26 +19,26 @@
     - name: Install Erlang
       apt:
         name: erlang
-        state: present
         update_cache: yes
+        cache_valid_time: 86400
+        state: present
       tags:
         - package
 
-    - name: Add RabbitMQ public key
+    - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
-        url: https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+        url: https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
         state: present
       tags:
         - package
 
-    - name: Add RabbitMQ repository
-      apt_repository:
-        repo: deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main
+    - apt_repository:
+        repo: deb https://dl.bintray.com/rabbitmq/debian bionic main
         state: present
       tags:
         - package
 
-    - name: Install RabbitMQ
+    - name: Install Rabbit MQ
       apt:
         name: rabbitmq-server
         state: present
@@ -54,7 +46,8 @@
       tags:
         - package
 
-    - name: Start & Enable RabbitMQ
+
+    - name: Start & Enable RMQ
       service:
         name: rabbitmq-server
         state: started
@@ -62,7 +55,7 @@
       tags:
         - svc
 
-    - name: Configure RabbitMQ
+    - name: Config setup
       copy:
         content: |
           [{rabbit, [{loopback_users, []}]}].
@@ -72,8 +65,8 @@
       tags:
         - conf
 
-    - name: Create RabbitMQ user
-      rabbitmq_user:
+
+    - rabbitmq_user:
         user: test
         password: test
         configure_priv: .*
@@ -86,7 +79,8 @@
       tags:
         - conf
 
-    - name: Enable rabbitmq_management plugin
+
+    - name: Enables the rabbitmq_management plugin
       rabbitmq_plugin:
         names: rabbitmq_management
         state: enabled
