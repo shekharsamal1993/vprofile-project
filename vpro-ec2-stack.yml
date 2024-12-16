@@ -81,7 +81,7 @@
           Owner: DevOps Team
         exact_count: 1
         state: present
-        group_id: "{{vproStackSG_out.group_id}}"
+        group_id: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
       register: web01_out
 
@@ -100,7 +100,7 @@
           Owner: DevOps Team
         exact_count: 1
         state: present
-        group_id: "{{vproStackSG_out.group_id}}"
+        group_id: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
       register: app01_out
 
@@ -118,7 +118,7 @@
           Owner: DevOps Team
         exact_count: 1
         state: present
-        group_id: "{{vproStackSG_out.group_id}}"
+        group_id: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
       register: mc01_out    
   
@@ -136,7 +136,7 @@
           Owner: DevOps Team
         exact_count: 1
         state: present
-        group_id: "{{vproStackSG_out.group_id}}"
+        group_id: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
       register: rmq01_out
 
@@ -154,7 +154,7 @@
           Owner: DevOps Team
         exact_count: 1
         state: present
-        group_id: "{{vproStackSG_out.group_id}}"
+        group_id: "{{vproStack_sg_out.group_id}}"
         vpc_subnet_id: "{{privsub1id}}"
       register: db01_out   
     
