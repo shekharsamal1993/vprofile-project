@@ -14,8 +14,11 @@
       ec2_key:
         name: vprofile-key
         region: "{{region}}"
+
       register: key_out
 
+    - debug:
+        var: key_out
 
     - name: Save private key into file bastion-key.pem
       copy:
@@ -35,9 +38,12 @@
             from_port: 22
             to_port: 22
             cidr_ip: "{{MYIP}}"
-            rule_desc: allow all on port 80 from MYIP
+            rule_desc: allow all on port 22 from MYIP
       register: BastionSG_out
 
+    - debug:
+        var: BastionSG_out
+    
     - name: Creating Bastion Host
       amazon.aws.ec2_instance:
         key_name: vprofile-key
@@ -66,5 +72,3 @@
         backup: yes
         block: |
           BastionSGid: {{BastionSG_out.group_id}}
-
-
