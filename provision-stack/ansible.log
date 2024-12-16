@@ -1,0 +1,128 @@
+2024-12-16 13:28:04,916 p=4775 u=root n=ansible | PLAY [Generate artifact, copy artifact & sql file to files directory] ********************************************************************************************************************************************
+2024-12-16 13:28:04,923 p=4775 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-16 13:28:06,002 p=4775 u=root n=ansible | ok: [localhost]
+2024-12-16 13:28:06,008 p=4775 u=root n=ansible | TASK [Install  jdk, maven, git] **********************************************************************************************************************************************************************************
+2024-12-16 13:28:13,828 p=4775 u=root n=ansible | ok: [localhost] => (item=git)
+2024-12-16 13:28:46,126 p=4775 u=root n=ansible | changed: [localhost] => (item=openjdk-8-jdk)
+2024-12-16 13:28:55,182 p=4775 u=root n=ansible | changed: [localhost] => (item=maven)
+2024-12-16 13:28:55,195 p=4775 u=root n=ansible | TASK [Clone source code from github] *****************************************************************************************************************************************************************************
+2024-12-16 13:29:16,986 p=4775 u=root n=ansible | changed: [localhost]
+2024-12-16 13:29:16,995 p=4775 u=root n=ansible | TASK [mvn install command to build artifact] *********************************************************************************************************************************************************************
+2024-12-16 13:29:57,485 p=4775 u=root n=ansible | changed: [localhost]
+2024-12-16 13:29:57,513 p=4775 u=root n=ansible | TASK [Copy artifacts to files directory] *************************************************************************************************************************************************************************
+2024-12-16 13:29:58,609 p=4775 u=root n=ansible | changed: [localhost] => (item=/root/vprofile-project/provision-stack/Vprofile-repo/target/vprofile-v2.war)
+2024-12-16 13:29:58,616 p=4775 u=root n=ansible | TASK [Copy SQL file to files directory] **************************************************************************************************************************************************************************
+2024-12-16 13:29:58,952 p=4775 u=root n=ansible | changed: [localhost]
+2024-12-16 13:29:58,954 p=4775 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-16 13:29:58,954 p=4775 u=root n=ansible | localhost                  : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:32:58,491 p=9768 u=root n=ansible | PLAY [Set host to ip mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2024-12-16 13:32:58,511 p=9768 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-16 13:32:59,917 p=9768 u=root n=ansible | [WARNING]: Platform linux on host cntl is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:32:59,917 p=9768 u=root n=ansible | ok: [cntl]
+2024-12-16 13:33:44,613 p=9768 u=root n=ansible | fatal: [web01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.32 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:33:44,624 p=9768 u=root n=ansible | fatal: [app01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.22 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:33:44,640 p=9768 u=root n=ansible | fatal: [rmq01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.62 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:33:44,658 p=9768 u=root n=ansible | fatal: [mc01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.184 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:33:45,946 p=9768 u=root n=ansible | fatal: [db01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.122 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:33:45,954 p=9768 u=root n=ansible | TASK [Import VPC setup Variable] *********************************************************************************************************************************************************************************
+2024-12-16 13:33:45,969 p=9768 u=root n=ansible | ok: [cntl]
+2024-12-16 13:33:45,974 p=9768 u=root n=ansible | TASK [Update hosts file for all the hosts] ***********************************************************************************************************************************************************************
+2024-12-16 13:33:46,265 p=9768 u=root n=ansible | changed: [cntl]
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | app01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | cntl                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | db01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | mc01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | rmq01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:33:46,267 p=9768 u=root n=ansible | web01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:34:30,978 p=9915 u=root n=ansible | PLAY [Set host to ip mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2024-12-16 13:34:30,983 p=9915 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-16 13:34:32,210 p=9915 u=root n=ansible | [WARNING]: Platform linux on host cntl is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:34:32,212 p=9915 u=root n=ansible | ok: [cntl]
+2024-12-16 13:35:17,098 p=9915 u=root n=ansible | fatal: [web01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.32 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:35:17,110 p=9915 u=root n=ansible | fatal: [app01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.22 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:35:17,121 p=9915 u=root n=ansible | fatal: [rmq01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.62 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:35:17,131 p=9915 u=root n=ansible | fatal: [mc01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.184 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:35:18,238 p=9915 u=root n=ansible | fatal: [db01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.122 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:35:18,246 p=9915 u=root n=ansible | TASK [Import VPC setup Variable] *********************************************************************************************************************************************************************************
+2024-12-16 13:35:18,260 p=9915 u=root n=ansible | fatal: [cntl]: FAILED! => {"ansible_facts": {}, "ansible_included_var_files": [], "changed": false, "message": "Could not find or access 'group_vars/hostip'\nSearched in:\n\t/root/vprofile-project/provision-stack/vars/group_vars/hostip\n\t/root/vprofile-project/provision-stack/group_vars/hostip\n\t/root/vprofile-project/provision-stack/vars/group_vars/hostip\n\t/root/vprofile-project/provision-stack/group_vars/hostip on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+2024-12-16 13:35:18,261 p=9915 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-16 13:35:18,261 p=9915 u=root n=ansible | app01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:35:18,261 p=9915 u=root n=ansible | cntl                       : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:35:18,261 p=9915 u=root n=ansible | db01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:35:18,261 p=9915 u=root n=ansible | mc01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:35:18,262 p=9915 u=root n=ansible | rmq01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:35:18,262 p=9915 u=root n=ansible | web01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:40:31,538 p=10043 u=root n=ansible | PLAY [Set host to ip mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2024-12-16 13:40:31,544 p=10043 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-16 13:40:32,784 p=10043 u=root n=ansible | [WARNING]: Platform linux on host cntl is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:40:32,785 p=10043 u=root n=ansible | ok: [cntl]
+2024-12-16 13:41:17,625 p=10043 u=root n=ansible | fatal: [web01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.32 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:41:17,657 p=10043 u=root n=ansible | fatal: [app01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.22 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:41:17,673 p=10043 u=root n=ansible | fatal: [rmq01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.62 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:41:17,696 p=10043 u=root n=ansible | fatal: [mc01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.184 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:41:18,821 p=10043 u=root n=ansible | fatal: [db01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 172.20.4.122 port 22: Connection timed out", "unreachable": true}
+2024-12-16 13:41:18,828 p=10043 u=root n=ansible | TASK [Import VPC setup Variable] *********************************************************************************************************************************************************************************
+2024-12-16 13:41:18,842 p=10043 u=root n=ansible | ok: [cntl]
+2024-12-16 13:41:18,846 p=10043 u=root n=ansible | TASK [Update hosts file for all the hosts] ***********************************************************************************************************************************************************************
+2024-12-16 13:41:19,136 p=10043 u=root n=ansible | ok: [cntl]
+2024-12-16 13:41:19,138 p=10043 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-16 13:41:19,138 p=10043 u=root n=ansible | app01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:41:19,138 p=10043 u=root n=ansible | cntl                       : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:41:19,138 p=10043 u=root n=ansible | db01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:41:19,138 p=10043 u=root n=ansible | mc01                       : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:41:19,139 p=10043 u=root n=ansible | rmq01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:41:19,139 p=10043 u=root n=ansible | web01                      : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:38,617 p=10185 u=root n=ansible | PLAY [Set host to ip mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2024-12-16 13:44:38,624 p=10185 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-16 13:44:40,036 p=10185 u=root n=ansible | [WARNING]: Platform linux on host cntl is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:40,038 p=10185 u=root n=ansible | ok: [cntl]
+2024-12-16 13:44:41,047 p=10185 u=root n=ansible | [WARNING]: Platform linux on host web01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:41,047 p=10185 u=root n=ansible | ok: [web01]
+2024-12-16 13:44:41,103 p=10185 u=root n=ansible | [WARNING]: Platform linux on host app01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:41,103 p=10185 u=root n=ansible | ok: [app01]
+2024-12-16 13:44:41,169 p=10185 u=root n=ansible | [WARNING]: Platform linux on host rmq01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:41,169 p=10185 u=root n=ansible | ok: [rmq01]
+2024-12-16 13:44:41,489 p=10185 u=root n=ansible | [WARNING]: Platform linux on host mc01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:41,489 p=10185 u=root n=ansible | ok: [mc01]
+2024-12-16 13:44:42,665 p=10185 u=root n=ansible | [WARNING]: Platform linux on host db01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-16 13:44:42,665 p=10185 u=root n=ansible | ok: [db01]
+2024-12-16 13:44:42,670 p=10185 u=root n=ansible | TASK [Import VPC setup Variable] *********************************************************************************************************************************************************************************
+2024-12-16 13:44:42,695 p=10185 u=root n=ansible | ok: [cntl]
+2024-12-16 13:44:42,729 p=10185 u=root n=ansible | ok: [web01]
+2024-12-16 13:44:42,752 p=10185 u=root n=ansible | ok: [app01]
+2024-12-16 13:44:42,770 p=10185 u=root n=ansible | ok: [rmq01]
+2024-12-16 13:44:42,772 p=10185 u=root n=ansible | ok: [mc01]
+2024-12-16 13:44:42,780 p=10185 u=root n=ansible | ok: [db01]
+2024-12-16 13:44:42,786 p=10185 u=root n=ansible | TASK [Update hosts file for all the hosts] ***********************************************************************************************************************************************************************
+2024-12-16 13:44:43,424 p=10185 u=root n=ansible | ok: [cntl]
+2024-12-16 13:44:43,432 p=10185 u=root n=ansible | changed: [web01]
+2024-12-16 13:44:43,439 p=10185 u=root n=ansible | changed: [app01]
+2024-12-16 13:44:43,450 p=10185 u=root n=ansible | changed: [rmq01]
+2024-12-16 13:44:43,455 p=10185 u=root n=ansible | changed: [mc01]
+2024-12-16 13:44:43,749 p=10185 u=root n=ansible | changed: [db01]
+2024-12-16 13:44:43,752 p=10185 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-16 13:44:43,752 p=10185 u=root n=ansible | app01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:43,752 p=10185 u=root n=ansible | cntl                       : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:43,752 p=10185 u=root n=ansible | db01                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:43,753 p=10185 u=root n=ansible | mc01                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:43,753 p=10185 u=root n=ansible | rmq01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-16 13:44:43,753 p=10185 u=root n=ansible | web01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
