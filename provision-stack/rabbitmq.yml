@@ -24,14 +24,6 @@
         state: present
       tags:
         - package
-    
-    # - name: Upgrade Erlang to version 24.3
-    #   apt:
-    #     name: erlang
-    #     state: latest
-    #     update_cache: yes
-    #   tags:
-    #     - package
   
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
@@ -41,7 +33,7 @@
         - package
 
     - apt_repository:
-        repo: deb https://binaries2.erlang-solutions.com/ubuntu/pool/contrib/e/esl-erlang/esl-erlang_24.3.3-1~ubuntu~focal_amd64.deb
+        repo: deb https://dl.bintray.com/rabbitmq/debian bionic main
         state: present
       tags:
         - package
