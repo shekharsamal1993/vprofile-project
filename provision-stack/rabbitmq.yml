@@ -4,9 +4,9 @@
   gather_facts: no
   tasks:
     - name: Install Erlang Repository Package
-      dpkg:
-        src: https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
-        force: yes
+      apt:
+        deb: https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
+        state: present
       tags:
         - package
 
