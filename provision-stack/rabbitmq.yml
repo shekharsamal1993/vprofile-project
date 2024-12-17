@@ -1,72 +1,84 @@
----
 - name: Install & Setup RabbitMQ with user
   hosts: rmqsrvgrp
   gather_facts: no
   tasks:
-    - name: Install Erlang Repository Package
+    - name: Update apt packages
       apt:
-        deb: https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
-      tags:
-        - package
+        update_cache: yes
 
-    - name: Add an Erlang Solution public Key
-      apt_key:
-        url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+    - name: Install necessary packages
+      apt:
+        name: "{{ item }}"
         state: present
-      tags:
-        - package
+      loop:
+        - curl
+        - software-properties-common
+        - apt-transport-https
+        - lsb-release
+      become: yes
+
+    - name: Add repository
+      shell: curl -1sLf 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/setup.deb.sh' | sudo -E bash
+
+    - name: Update apt packages after adding repository
+      apt:
+        update_cache: yes
 
     - name: Install Erlang
       apt:
         name: erlang
+        state: present
+
+    - name: Install curl and gnupg
+      apt:
+        name:
+          - curl
+          - gnupg
+        state: present
+
+    - name: Import RabbitMQ GPG keys
+      shell: >
+        curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" |
+        sudo gpg --dearmor |
+        sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null &&
+        curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key |
+        sudo gpg --dearmor |
+        sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg > /dev/null &&
+        curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key |
+        sudo gpg --dearmor |
+        sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg > /dev/null
+      become: yes
+
+    - name: Create RabbitMQ repository file if it doesn't exist
+      file:
+        path: /etc/apt/sources.list.d/rabbitmq.list
+        state: touch
+      become: yes
+
+    - name: Add RabbitMQ repository
+      blockinfile:
+        path: /etc/apt/sources.list.d/rabbitmq.list
+        block: |
+          deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+          deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+          deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
+          deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
+      become: yes
+
+    - name: Update apt cache
+      apt:
         update_cache: yes
-        cache_valid_time: 86400
-        state: present
-      tags:
-        - package
 
-    - name: Add an Apt signing key, uses whichever key is at the URL
-      apt_key:
-        url: https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-        state: present
-      tags:
-        - package
-
-    - apt_repository:
-        repo: deb https://dl.bintray.com/rabbitmq/debian bionic main
-        state: present
-      tags:
-        - package
-
-    - name: Install Rabbit MQ
+    - name: Install RabbitMQ server
       apt:
         name: rabbitmq-server
         state: present
         update_cache: yes
-      tags:
-        - package
+        install_recommends: no
+        force: yes
 
-
-    - name: Start & Enable RMQ
-      service:
-        name: rabbitmq-server
-        state: started
-        enabled: yes
-      tags:
-        - svc
-
-    - name: Config setup
-      copy:
-        content: |
-          [{rabbit, [{loopback_users, []}]}].
-        dest: /etc/rabbitmq/rabbitmq.config
-      notify:
-        - Restart RMQ
-      tags:
-        - conf
-
-
-    - rabbitmq_user:
+    - name: Add RabbitMQ user
+      rabbitmq_user:
         user: test
         password: test
         configure_priv: .*
@@ -76,22 +88,16 @@
         state: present
       notify:
         - Restart RMQ
-      tags:
-        - conf
 
-
-    - name: Enables the rabbitmq_management plugin
+    - name: Enable RabbitMQ management plugin
       rabbitmq_plugin:
         names: rabbitmq_management
         state: enabled
       notify:
         - Restart RMQ
-      tags:
-        - package
 
   handlers:
     - name: Restart RMQ
       service:
         name: rabbitmq-server
         state: restarted
-        

@@ -164,4 +164,3 @@
       service:
         name: tomcat8
         state: restarted
-        

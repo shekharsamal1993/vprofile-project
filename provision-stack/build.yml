@@ -47,3 +47,4 @@
 
         #- name: Copy SQL file to files directory
         #command: "cp Vprofile-repo/src/main/resources/db_backup.sql files/"
+        

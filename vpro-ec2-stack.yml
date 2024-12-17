@@ -61,10 +61,10 @@
             to_port: 22
             group_id: "{{BastionSGid}}" 
 
-          - proto: tcp
-            from_port: 22
-            to_port: 22
-            cidr_ip: 0.0.0.0/0   
+          # - proto: tcp
+          #   from_port: 22
+          #   to_port: 22
+          #   cidr_ip: 0.0.0.0/0   
 
       register: vproStack_sg_out
 
@@ -257,4 +257,3 @@
           ansible_user=ubuntu
           ansible_ssh_private_key_file=loginkey_vpro.pem
           #ansible_python_interpreter=/usr/bin/python3        
-   
