@@ -1,0 +1,64 @@
+2024-12-17 10:46:23,752 p=900 u=root n=ansible | PLAY [Generate artifact, copy artifact & sql file to files directory] ********************************************************************************************************************************************
+2024-12-17 10:46:23,769 p=900 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-17 10:46:24,865 p=900 u=root n=ansible | ok: [localhost]
+2024-12-17 10:46:24,870 p=900 u=root n=ansible | TASK [Install  jdk, maven, git] **********************************************************************************************************************************************************************************
+2024-12-17 10:46:35,486 p=900 u=root n=ansible | ok: [localhost] => (item=git)
+2024-12-17 10:47:09,779 p=900 u=root n=ansible | changed: [localhost] => (item=openjdk-8-jdk)
+2024-12-17 10:47:19,823 p=900 u=root n=ansible | changed: [localhost] => (item=maven)
+2024-12-17 10:47:19,842 p=900 u=root n=ansible | TASK [Clone source code from github] *****************************************************************************************************************************************************************************
+2024-12-17 10:47:44,944 p=900 u=root n=ansible | changed: [localhost]
+2024-12-17 10:47:44,952 p=900 u=root n=ansible | TASK [mvn install command to build artifact] *********************************************************************************************************************************************************************
+2024-12-17 10:48:24,815 p=900 u=root n=ansible | changed: [localhost]
+2024-12-17 10:48:24,840 p=900 u=root n=ansible | TASK [Copy artifacts to files directory] *************************************************************************************************************************************************************************
+2024-12-17 10:48:25,920 p=900 u=root n=ansible | changed: [localhost] => (item=/root/vprofile-project/provision-stack/Vprofile-repo/target/vprofile-v2.war)
+2024-12-17 10:48:25,927 p=900 u=root n=ansible | TASK [Copy SQL file to files directory] **************************************************************************************************************************************************************************
+2024-12-17 10:48:26,268 p=900 u=root n=ansible | changed: [localhost]
+2024-12-17 10:48:26,269 p=900 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-17 10:48:26,270 p=900 u=root n=ansible | localhost                  : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:42,139 p=5905 u=root n=ansible | PLAY [Set host to ip mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2024-12-17 10:49:42,155 p=5905 u=root n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2024-12-17 10:49:44,649 p=5905 u=root n=ansible | [WARNING]: Platform linux on host web01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:44,652 p=5905 u=root n=ansible | ok: [web01]
+2024-12-17 10:49:44,657 p=5905 u=root n=ansible | [WARNING]: Platform linux on host mc01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:44,658 p=5905 u=root n=ansible | ok: [mc01]
+2024-12-17 10:49:44,681 p=5905 u=root n=ansible | [WARNING]: Platform linux on host app01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:44,682 p=5905 u=root n=ansible | ok: [app01]
+2024-12-17 10:49:44,732 p=5905 u=root n=ansible | [WARNING]: Platform linux on host cntl is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:44,732 p=5905 u=root n=ansible | ok: [cntl]
+2024-12-17 10:49:44,977 p=5905 u=root n=ansible | [WARNING]: Platform linux on host rmq01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:44,977 p=5905 u=root n=ansible | ok: [rmq01]
+2024-12-17 10:49:46,917 p=5905 u=root n=ansible | [WARNING]: Platform linux on host db01 is using the discovered Python interpreter at /usr/bin/python3.10, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+
+2024-12-17 10:49:46,917 p=5905 u=root n=ansible | ok: [db01]
+2024-12-17 10:49:46,923 p=5905 u=root n=ansible | TASK [Import VPC setup Variable] *********************************************************************************************************************************************************************************
+2024-12-17 10:49:46,965 p=5905 u=root n=ansible | ok: [cntl]
+2024-12-17 10:49:46,983 p=5905 u=root n=ansible | ok: [web01]
+2024-12-17 10:49:46,998 p=5905 u=root n=ansible | ok: [app01]
+2024-12-17 10:49:47,020 p=5905 u=root n=ansible | ok: [rmq01]
+2024-12-17 10:49:47,022 p=5905 u=root n=ansible | ok: [mc01]
+2024-12-17 10:49:47,029 p=5905 u=root n=ansible | ok: [db01]
+2024-12-17 10:49:47,035 p=5905 u=root n=ansible | TASK [Update hosts file for all the hosts] ***********************************************************************************************************************************************************************
+2024-12-17 10:49:47,650 p=5905 u=root n=ansible | changed: [cntl]
+2024-12-17 10:49:47,696 p=5905 u=root n=ansible | changed: [web01]
+2024-12-17 10:49:47,706 p=5905 u=root n=ansible | changed: [mc01]
+2024-12-17 10:49:47,706 p=5905 u=root n=ansible | changed: [app01]
+2024-12-17 10:49:47,726 p=5905 u=root n=ansible | changed: [rmq01]
+2024-12-17 10:49:47,959 p=5905 u=root n=ansible | changed: [db01]
+2024-12-17 10:49:47,962 p=5905 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2024-12-17 10:49:47,962 p=5905 u=root n=ansible | app01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:47,962 p=5905 u=root n=ansible | cntl                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:47,962 p=5905 u=root n=ansible | db01                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:47,962 p=5905 u=root n=ansible | mc01                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:47,963 p=5905 u=root n=ansible | rmq01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2024-12-17 10:49:47,963 p=5905 u=root n=ansible | web01                      : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
